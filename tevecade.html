@@ -203,11 +203,19 @@
       <video-player></video-player>
     </tv-watcher>
 
+    <ur-ls style="display: none;">
+      <i class="selected" data-url="https://notbigmuzzy.github.io/tevecade/urls/balkan.m3u" />
+      <i data-url="https://notbigmuzzy.github.io/tevecade/urls/sport.m3u" />
+    </ur-ls>
   </main>
 
   <!-- LOGIC -->
   <script>
-    const FREETVM3U8URL = 'https://notbigmuzzy.github.io/tevecade/playlist.m3u';
+    function getSelectedUrl() {
+      const selected = document.querySelector('ur-ls .selected');
+      return selected ? selected.getAttribute('data-url') : '';
+    }
+    let FREETVM3U8URL = getSelectedUrl();
 
     function requestFullscreen(elem) {
       if (elem.requestFullscreen) {
