@@ -13,7 +13,7 @@
   <style>
     control-bar {
       position: absolute;
-      top: 10px;
+      top: 0;
       left: 0;
       right: 0;
       padding: 10px;
@@ -24,13 +24,12 @@
       height: 50px;
       width: 100%;
       box-sizing: border-box;
+      background: rgba(0, 0, 0, .5);
     }
-
-    .tv-watcher-container:hover control-bar,
-    .tv-watcher-container:focus control-bar {
+    .tv-watcher-container.controls-visible control-bar {
       display: flex;
     }
-    control-bar #fullscreen-btn {
+    control-bar button {
       pointer-events: initial;
       z-index: 10;
       font-size: 1em;
@@ -38,25 +37,23 @@
       border: none;
       background: transparent;
       color: #fff;
-      border: 1px solid #fff;
       cursor: pointer;
       padding: 0;
       width: 50px;
       height: 50px;
     }
-    control-bar #hide-sidebar-btn {
-      pointer-events: initial;
-      z-index: 10;
-      font-size: 1em;
-      border-radius: 5px;
-      border: none;
-      background: transparent;
+    control-bar .titlebar-station-name {
       color: #fff;
-      border: 1px solid #fff;
-      cursor: pointer;
-      padding: 0;
-      width: 50px;
-      height: 50px;
+      font-size: 1.2em;
+      font-weight: bold;
+      flex-grow: 1;
+      text-align: center;
+      pointer-events: initial;
+    }
+    .vjs-error .vjs-error-display .vjs-modal-dialog-content {
+      display: flex;
+      align-items: end;
+      justify-content: center;
     }
     .input-wrapper {
       display: flex;
@@ -75,11 +72,12 @@
       height: 100%;
       border: none;
       outline: none;
+      padding: 10px;
     }
     .input-wrapper input[type="text"] {
       width: 100%;
       box-sizing: border-box;
-      padding-right: 2em;
+      padding: 10px;
     }
     .clear-btn {
       position: absolute;
@@ -242,7 +240,9 @@
       flex: 1 1 auto;
     }
     station-picker a:hover {
-      background-color: red;
+      background-color: rgb(180, 0, 0);
+      color: #fff;
+      font-weight: bold;
     }
     .tv-watcher-container {
       width: calc(100% - 280px);
@@ -265,9 +265,9 @@
       justify-content: center;
       background-color: #222;
     }
-    .video-js {
-      width: 100%;
-      height: 100%;
+    tv-watcher .video-js {
+      width: 100% !important;
+      height: 100% !important;
     }
   </style>
 </head>
@@ -301,6 +301,7 @@
       </tv-watcher>
       <control-bar>
         <button id="hide-sidebar-btn">←</button>
+        <span class="titlebar-station-name">Select a station</span>
         <button id="fullscreen-btn">⛶</button>
       </control-bar>
     </div>
@@ -386,23 +387,42 @@
           a.appendChild(number);
           a.addEventListener('click', (e) => {
             e.preventDefault();
+            
+            // Update the titlebar station name
+            const titlebarStationName = document.querySelector('.titlebar-station-name');
+            if (titlebarStationName) {
+              titlebarStationName.textContent = station.name;
+            }
+            
             const tvWatcher = document.querySelector('tv-watcher');
             tvWatcher.innerHTML = '';
             const video = document.createElement('video');
-            video.setAttribute('controls', '');
+            video.setAttribute('controls', 'false');
             video.setAttribute('autoplay', '');
             video.setAttribute('width', '640');
             video.setAttribute('height', '360');
+            video.setAttribute('playsinline', '');
             video.style.background = '#000';
             tvWatcher.appendChild(video);
             video.className = 'video-js vjs-default-skin';
-            video.setAttribute('data-setup', '{}');
+            video.setAttribute('data-setup', '{"nativeControlsForTouch":true}');
             const source = document.createElement('source');
             source.src = station.url;
             source.type = 'application/x-mpegURL';
             video.appendChild(source);
             if (window.videojs) {
-              window.videojs(video);
+              const player = window.videojs(video, {
+                controls: false,
+                nativeControlsForTouch: false,
+                fluid: false,
+                responsive: false
+              });
+              
+              // Force native controls by hiding Video.js controls
+              player.ready(() => {
+                player.controls(false);
+                video.controls = false;
+              });
             }
           });
           li.appendChild(a);
@@ -456,6 +476,34 @@
         main.classList.toggle('sidebar-hidden');
         tvWatcherContainer.classList.toggle('maximized');
       });
+
+      // Show control-bar only when video.js controls are visible
+      function setupVideoJsControlBarSync() {
+        const tvWatcher = document.querySelector('tv-watcher');
+        const container = document.querySelector('.tv-watcher-container');
+        const observer = new MutationObserver(() => {
+          const video = tvWatcher.querySelector('video');
+          if (!video || !window.videojs) return;
+          const vjs = window.videojs.getPlayer ? window.videojs.getPlayer(video) : window.videojs(video);
+          if (!vjs) return;
+          vjs.ready(function() {
+            vjs.on('userinactive', function() {
+              container.classList.remove('controls-visible');
+            });
+            vjs.on('useractive', function() {
+              container.classList.add('controls-visible');
+            });
+            // Initial state
+            if (vjs.userActive()) {
+              container.classList.add('controls-visible');
+            } else {
+              container.classList.remove('controls-visible');
+            }
+          });
+        });
+        observer.observe(tvWatcher, { childList: true, subtree: true });
+      }
+      setupVideoJsControlBarSync();
     });
   </script>
 </body>
