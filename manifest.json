@@ -1,10 +1,22 @@
 {
-  "name": "Tevecade",
+  "name": "TEVECADE - Tecnología, Educacion, Vida, Eventos, Cultura, Arte, Deportes, Esports",
+  "short_name": "TEVECADE",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Tecnología, Educacion, Vida, Eventos, Cultura, Arte, Deportes, Esports streaming platform",
   "icons": [
     {
       "src": "512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favico.ico",
+      "type": "image/x-icon",
+      "sizes": "16x16 32x32"
     }
   ]
 }
