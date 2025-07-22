@@ -4,20 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tevecade - TV Local</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js" defer></script>
 </head>
 <body>
-  <header style="display: none;">
-    <h1>Tevecade</h1>
-  </header>
   <main>
-    <a
-      href="tevecade.zip"
-      target="_blank"
-      download
-      style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;"
-    >
-      Download zip
-    </a>
+    <station-picker>
+      <div class="input-wrapper">
+        <div class="select-url">
+          <select>
+            <option value="" disabled selected>Select a station</option>
+            <option value="recent">Recent</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/balkan.m3u">TV</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/films.m3u">Filmovi</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/sport.m3u">Sport</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/music.m3u">Music</option>
+          </select>
+        </div>
+        <div class="search-channel">
+          <input type="text" placeholder="Search ...">
+          <button type="button" class="clear-btn" title="Limpiar">×</button>
+        </div>
+      </div>
+      <ul>
+        <li></li>
+      </ul>
+    </station-picker>
+    <div class="tv-watcher-container">
+      <tv-watcher>
+        <video-player></video-player>
+      </tv-watcher>
+      <control-bar>
+        <button id="hide-sidebar-btn">←</button>
+        <span class="titlebar-station-name">Select a station</span>
+        <button id="fullscreen-btn">⛶</button>
+      </control-bar>
+    </div>
   </main>
 </body>
 </html>

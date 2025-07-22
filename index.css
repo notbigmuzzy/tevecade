@@ -1,0 +1,260 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+html, body {
+    height: 100%;
+}
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: #f4f4f4;
+    color: #222;
+}
+header {
+    background: #222;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    background: #ccc;
+    height: 100%;
+    overflow: hidden;
+}
+station-picker {
+    position: relative;
+    width: 280px;
+    height: 100%;
+}
+station-picker input {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: none;
+}
+station-picker input:focus {
+    outline: none;
+    border: none;
+}
+station-picker ul {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+station-picker a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 50px 8px 16px;
+    text-decoration: none;
+    color: #222;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+}
+station-picker a span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    max-width: 100%;
+    flex: 1 1 auto;
+}
+station-picker a:hover {
+    background-color: rgb(180, 0, 0);
+    color: #fff;
+    font-weight: bold;
+}
+.tv-watcher-container {
+    width: calc(100% - 280px);
+    height: 100%;
+    position: relative;
+    background-color: #222;
+}
+.tv-watcher-container.maximized {
+    width: 100vw;
+    z-index: 20;
+}
+.sidebar-hidden station-picker {
+    display: none;
+}
+tv-watcher {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #222;
+}
+tv-watcher .video-js {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+control-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    height: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, .5);
+}
+.tv-watcher-container.controls-visible control-bar {
+    display: flex;
+}
+control-bar button {
+    pointer-events: initial;
+    z-index: 10;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+}
+control-bar .titlebar-station-name {
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: center;
+    pointer-events: initial;
+}
+.vjs-error .vjs-error-display .vjs-modal-dialog-content {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+.input-wrapper {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    width: 100%;
+
+    & > div {
+    flex: 1;
+    flex-basis: 50%;
+    }
+}
+.input-wrapper .select-url select{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+}
+.input-wrapper input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.clear-btn {
+    position: absolute;
+    right: 0.3em;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #888;
+    cursor: pointer;
+    padding: 0 0.3em;
+    line-height: 1;
+    display: none;
+}
+.input-wrapper input[type="text"]:not(:placeholder-shown) + .clear-btn {
+    display: inline;
+}
+.error-getting-stations {
+    color: #929292;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.station-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.station-number {
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #eee;
+    color: #222;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+    border: 1px solid #ccc;
+    text-align: center;
+}
