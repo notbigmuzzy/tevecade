@@ -142,20 +142,24 @@ control-bar {
     left: 0;
     right: 0;
     padding: 10px;
-    display: none;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    pointer-events: none;
     height: 50px;
     width: 100%;
     box-sizing: border-box;
     background: rgba(0, 0, 0, .5);
+    opacity: 0;
+    outline: none;
 }
+/* control-bar:focus,
+control-bar:hover {
+    opacity: 1;
+} */
 .tv-watcher-container.controls-visible control-bar {
-    display: flex;
+    opacity: 1;
 }
 control-bar button {
-    pointer-events: initial;
     z-index: 10;
     font-size: 1em;
     border-radius: 5px;
@@ -173,7 +177,6 @@ control-bar .titlebar-station-name {
     font-weight: bold;
     flex-grow: 1;
     text-align: center;
-    pointer-events: initial;
 }
 .vjs-error .vjs-error-display .vjs-modal-dialog-content {
     display: flex;

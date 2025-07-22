@@ -330,9 +330,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     observer.observe(tvWatcher, { childList: true, subtree: true });
     }
     setupVideoJsControlBarSync();
+    // Make control-bar click add controls-visible to tv-watcher-container
+    const controlBar = document.querySelector('control-bar');
+    if (controlBar && tvWatcherContainer) {
+        controlBar.addEventListener('click', function(e) {
+            tvWatcherContainer.classList.add('controls-visible');
+        });
+    }
 });
 
-// Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
