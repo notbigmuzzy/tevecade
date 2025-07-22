@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tevecade - TV Local</title>
   <style>
+    #fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      padding: 8px 16px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      cursor: pointer;
+    }
     .input-wrapper {
       position: relative;
       width: 100%;
@@ -153,10 +167,9 @@
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 </head>
 <body>
-  <header style="display: none;">
-    <h1>Tevecade</h1>
-  </header>
+
   <main>
+    <button id="fullscreen-btn">+</button>
     <station-picker>
       <div class="input-wrapper">
         <input type="text" placeholder="Buscar canal...">
@@ -169,13 +182,27 @@
     <tv-watcher>
       <video-player></video-player>
     </tv-watcher>
+
   </main>
 
-<!--  -->
+  <!-- LOGIC -->
   <script>
     const FREETVM3U8URL = 'https://iptv-org.github.io/iptv/countries/rs.m3u';
 
+    function requestFullscreen(elem) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('fullscreen-btn').addEventListener('click', function() {
+        requestFullscreen(document.querySelector('main'));
+      });
       const ul = document.querySelector('station-picker ul');
       ul.innerHTML = '<li>Cargando estaciones...</li>';
       try {
