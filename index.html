@@ -24,6 +24,7 @@
           <select>
             <option value="" disabled selected>Select a station</option>
             <option value="recent">Recent</option>
+            <option value="favourites">Favourites</option>
             <option value="urls/balkan.m3u">TV</option>
             <option value="urls/films.m3u">Movies</option>
             <option value="urls/sport.m3u">Sport</option>
@@ -46,7 +47,10 @@
       </tv-watcher>
       <control-bar>
         <button id="hide-sidebar-btn">←</button>
-        <span class="titlebar-station-name">Select a station</span>
+        <span class="name-fav-wrapper">
+          <button id="favourite-btn" title="Add to favourites">★</button>
+          <span class="titlebar-station-name">Select a station</span>
+        </span>
         <button id="fullscreen-btn">⛶</button>
       </control-bar>
     </div>

@@ -152,10 +152,10 @@ control-bar {
     opacity: 0;
     outline: none;
 }
-/* control-bar:focus,
-control-bar:hover {
-    opacity: 1;
-} */
+.name-fav-wrapper {
+    display: flex;
+    align-items: center;
+}
 .tv-watcher-container.controls-visible control-bar {
     opacity: 1;
 }
@@ -170,6 +170,18 @@ control-bar button {
     padding: 0;
     width: 50px;
     height: 50px;
+}
+#favourite-btn {
+    font-size: 1.25em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #fff;
+    text-stroke: 1.5px #fff;
+    transition: color 0.2s;
+}
+#favourite-btn.favourited {
+    color: #fff;
+    -webkit-text-stroke: 0 #fff;
+    text-stroke: 0 #fff;
 }
 control-bar .titlebar-station-name {
     color: #fff;

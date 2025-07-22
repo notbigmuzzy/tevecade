@@ -1,3 +1,115 @@
+function removeFromFavourites(station) {
+    let favourites = getFavourites();
+    favourites = favourites.filter(s => s.url !== station.url);
+    localStorage.setItem('tevecade-favourites', JSON.stringify(favourites));
+}
+// Favourites helpers
+function getFavourites() {
+    const fav = localStorage.getItem('tevecade-favourites');
+    return fav ? JSON.parse(fav) : [];
+}
+
+function addToFavourites(station) {
+    let favourites = getFavourites();
+    // Avoid duplicates by url
+    if (!favourites.some(s => s.url === station.url)) {
+        favourites.unshift(station);
+        if (favourites.length > 25) favourites = favourites.slice(0, 25);
+        localStorage.setItem('tevecade-favourites', JSON.stringify(favourites));
+    }
+}
+
+function loadFavourites() {
+    const favourites = getFavourites();
+    const ul = document.querySelector('station-picker ul');
+    ul.innerHTML = '';
+    if (favourites.length === 0) {
+        ul.innerHTML = '<li class="error-getting-stations">No favourites</li>';
+        return;
+    }
+    favourites.forEach((station, idx) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#';
+        if (station.logo) {
+            const img = document.createElement('img');
+            img.src = station.logo;
+            img.alt = station.name + ' logo';
+            img.className = 'station-logo';
+            img.loading = 'lazy';
+            a.appendChild(img);
+        }
+        const span = document.createElement('span');
+        span.textContent = station.name;
+        a.appendChild(span);
+        const number = document.createElement('span');
+        number.className = 'station-number';
+        number.textContent = idx + 1;
+        a.appendChild(number);
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            addToRecentStations(station);
+            const titlebarStationName = document.querySelector('.titlebar-station-name');
+            if (titlebarStationName) {
+                titlebarStationName.textContent = station.name;
+            }
+            const tvWatcher = document.querySelector('tv-watcher');
+            tvWatcher.innerHTML = '';
+            const video = document.createElement('video');
+            video.setAttribute('controls', 'false');
+            video.setAttribute('autoplay', '');
+            video.setAttribute('width', '640');
+            video.setAttribute('height', '360');
+            video.setAttribute('playsinline', '');
+            video.style.background = '#000';
+            tvWatcher.appendChild(video);
+            video.className = 'video-js vjs-default-skin';
+            video.setAttribute('data-setup', '{"nativeControlsForTouch":true}');
+            const source = document.createElement('source');
+            source.src = station.url;
+            source.type = 'application/x-mpegURL';
+            video.appendChild(source);
+            if (window.videojs) {
+                const player = window.videojs(video, {
+                    controls: false,
+                    nativeControlsForTouch: false,
+                    fluid: false,
+                    responsive: false
+                });
+                player.ready(() => {
+                    player.controls(false);
+                    video.controls = false;
+                });
+            }
+        });
+        li.appendChild(a);
+        li.dataset.url = station.url;
+        ul.appendChild(li);
+    });
+    // Filter for favourites
+    const filterInput = document.querySelector('station-picker input[type="text"]');
+    const clearBtn = document.querySelector('.clear-btn');
+    function filterList() {
+        const filter = filterInput.value.trim().toLowerCase();
+        const items = ul.querySelectorAll('li');
+        items.forEach(li => {
+            const name = li.textContent.trim().toLowerCase();
+            if (name.includes(filter)) {
+                li.style.display = '';
+            } else {
+                li.style.display = 'none';
+            }
+        });
+        clearBtn.style.display = filter ? 'inline' : 'none';
+    }
+    filterInput.addEventListener('input', filterList);
+    clearBtn.addEventListener('click', function() {
+        filterInput.value = '';
+        filterInput.focus();
+        filterList();
+    });
+    clearBtn.style.display = 'none';
+}
 function getRecentStations() {
     const recent = localStorage.getItem('tevecade-recent-stations');
     return recent ? JSON.parse(recent) : [];
@@ -285,16 +397,99 @@ async function loadStations(url) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+    // Ensure 'Favourites' option is always present in the select
+    const selectEl = document.querySelector('.select-url select');
+    if (selectEl && !Array.from(selectEl.options).some(opt => opt.value === 'favourites')) {
+        const favOption = document.createElement('option');
+        favOption.value = 'favourites';
+        favOption.textContent = 'Favourites';
+        selectEl.insertBefore(favOption, selectEl.options[2] || null); // after Recent
+    }
     document.getElementById('fullscreen-btn').addEventListener('click', function() {
     requestFullscreen(document.querySelector('main'));
     });
     const select = document.querySelector('.select-url select');
     select.addEventListener('change', function() {
     FREETVM3U8URL = select.value;
-    loadStations(FREETVM3U8URL);
+    if (FREETVM3U8URL === 'recent') {
+        loadRecentStations();
+    } else if (FREETVM3U8URL === 'favourites') {
+        loadFavourites();
+    } else {
+        loadStations(FREETVM3U8URL);
+    }
     });
     FREETVM3U8URL = getSelectedUrl();
-    loadStations(FREETVM3U8URL);
+    if (FREETVM3U8URL === 'recent') {
+        loadRecentStations();
+    } else if (FREETVM3U8URL === 'favourites') {
+        loadFavourites();
+    } else {
+        loadStations(FREETVM3U8URL);
+    }
+    // Favourite button logic
+    const favouriteBtn = document.getElementById('favourite-btn');
+    if (favouriteBtn) {
+        function getCurrentStation() {
+            const name = document.querySelector('.titlebar-station-name').textContent;
+            let station = null;
+            const recent = getRecentStations();
+            station = recent.find(s => s.name === name);
+            if (!station) {
+                const favs = getFavourites();
+                station = favs.find(s => s.name === name);
+            }
+            if (!station) {
+                const ul = document.querySelector('station-picker ul');
+                const li = Array.from(ul.querySelectorAll('li')).find(li => {
+                    const a = li.querySelector('a span');
+                    return a && a.textContent === name;
+                });
+                if (li) {
+                    const a = li.querySelector('a');
+                    const img = a.querySelector('img');
+                    const url = li.dataset.url;
+                    station = {
+                        name,
+                        url,
+                        logo: img ? img.src : ''
+                    };
+                }
+            }
+            return station;
+        }
+
+        function updateFavouriteBtn() {
+            const station = getCurrentStation();
+            const favs = getFavourites();
+            if (station && favs.some(s => s.url === station.url)) {
+                favouriteBtn.classList.add('favourited');
+            } else {
+                favouriteBtn.classList.remove('favourited');
+            }
+        }
+
+        favouriteBtn.addEventListener('click', function() {
+            const station = getCurrentStation();
+            if (!station) return;
+            const favs = getFavourites();
+            const isFav = favs.some(s => s.url === station.url);
+            if (isFav) {
+                removeFromFavourites(station);
+                favouriteBtn.classList.remove('favourited');
+            } else {
+                addToFavourites(station);
+                favouriteBtn.classList.add('favourited');
+            }
+        });
+
+        // Update icon on station change
+        const titlebarStationName = document.querySelector('.titlebar-station-name');
+        const observer = new MutationObserver(updateFavouriteBtn);
+        observer.observe(titlebarStationName, { childList: true });
+        // Initial state
+        updateFavouriteBtn();
+    }
 
     // Hide sidebar logic
     const hideSidebarBtn = document.getElementById('hide-sidebar-btn');
