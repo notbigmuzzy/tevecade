@@ -1,7 +1,6 @@
 {
   "name": "TEVECADE - Tecnología, Educacion, Vida, Eventos, Cultura, Arte, Deportes, Esports",
   "short_name": "TEVECADE",
-  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
