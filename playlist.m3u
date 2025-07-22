@@ -1,4 +1,17 @@
 #EXTM3U
+#EXTM3U
+#EXTINF:-1 tvg-id="RTS1.rs" tvg-logo="https://i.imgur.com/S1pKHSR.png" group-title="",RTS 1
+https://webtvstream.bhtelecom.ba/rts1.m3u8
+#EXTINF:-1 tvg-id="RTS2.rs" tvg-logo="https://i.imgur.com/jltAf5h.png" group-title="",RTS 2
+https://webtvstream.bhtelecom.ba/rts2.m3u8
+#EXTINF:-1 tvg-id="RTSSvet.rs@HD" tvg-logo="https://i.imgur.com/LjunOdy.png" group-title="",RTS Svet HD
+https://viamotionhsi.netplus.ch/live/eds/rtssat/browser-dash/rtssat.mpd
+#EXTINF:-1 tvg-id="RTV1.rs" tvg-logo="https://i.imgur.com/CG44YT3.png" group-title="",RTV 1
+mmsh://212.200.255.151/rtv1
+#EXTINF:-1 tvg-id="RTV2.rs" tvg-logo="https://i.imgur.com/skpr66t.png" group-title="",RTV 2
+mmsh://212.200.255.151/rtv2
+#EXTINF:-1 tvg-id="SOSKanalPlus.rs" tvg-logo="https://i.imgur.com/9SD40uH.png" group-title="Sports",SOS Kanal Plus
+https://53be5ef2d13aa.streamlock.net/soskanalplus/soskanalplus.stream/playlist.m3u8
 #EXTINF:-1 tvg-id="AlJazeeraBalkans.ba" tvg-logo="https://i.imgur.com/vMzCr8O.png" group-title="News",Al Jazeera Balkans
 https://live-hls-apps-ajb-v3-fa.getaj.net/AJB/index.m3u8
 #EXTINF:-1 tvg-id="ArenaSport1.ba@SD" tvg-logo="https://i.imgur.com/RJrJGbW.png" group-title="Sports",Arena Sport 1 SD

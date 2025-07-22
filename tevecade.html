@@ -59,6 +59,21 @@
       vertical-align: middle;
       margin-right: 8px;
     }
+    .station-number {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #eee;
+      color: #222;
+      font-weight: bold;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -177,7 +192,7 @@
     <button id="fullscreen-btn">+</button>
     <station-picker>
       <div class="input-wrapper">
-        <input type="text" placeholder="Buscar canal...">
+        <input type="text" placeholder="Search ...">
         <button type="button" class="clear-btn" title="Limpiar">×</button>
       </div>
       <ul>
@@ -252,8 +267,10 @@
             if (url) stations.push({ name, url, logo });
           }
         }
+        // Only keep stations with .m3u8 URLs
+        const filteredStations = stations.filter(station => station.url.endsWith('.m3u8'));
         ul.innerHTML = '';
-        stations.forEach(station => {
+        filteredStations.forEach((station, idx) => {
           const li = document.createElement('li');
           const a = document.createElement('a');
           a.href = '#';
@@ -268,6 +285,11 @@
           const span = document.createElement('span');
           span.textContent = station.name;
           a.appendChild(span);
+          // Add number circle on right
+          const number = document.createElement('span');
+          number.className = 'station-number';
+          number.textContent = idx + 1;
+          a.appendChild(number);
           a.addEventListener('click', (e) => {
             e.preventDefault();
             const tvWatcher = document.querySelector('tv-watcher');
@@ -279,20 +301,15 @@
             video.setAttribute('height', '360');
             video.style.background = '#000';
             tvWatcher.appendChild(video);
-            if (station.url.endsWith('.m3u8')) {
-              // Use Video.js for .m3u8
-              video.className = 'video-js vjs-default-skin';
-              video.setAttribute('data-setup', '{}');
-              const source = document.createElement('source');
-              source.src = station.url;
-              source.type = 'application/x-mpegURL';
-              video.appendChild(source);
-              if (window.videojs) {
-                window.videojs(video);
-              }
-            } else {
-              // Fallback: try native
-              video.src = station.url;
+            // Use Video.js for .m3u8
+            video.className = 'video-js vjs-default-skin';
+            video.setAttribute('data-setup', '{}');
+            const source = document.createElement('source');
+            source.src = station.url;
+            source.type = 'application/x-mpegURL';
+            video.appendChild(source);
+            if (window.videojs) {
+              window.videojs(video);
             }
           });
           li.appendChild(a);
