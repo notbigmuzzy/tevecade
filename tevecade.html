@@ -26,8 +26,22 @@
       cursor: pointer;
     }
     .input-wrapper {
+      display: flex;
+      width: 100%;
+      height: 40px;
       position: relative;
       width: 100%;
+
+      & > div {
+        flex: 1;
+        flex-basis: 50%;
+      }
+    }
+    .input-wrapper .select-url select{
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
     }
     .input-wrapper input[type="text"] {
       width: 100%;
@@ -51,7 +65,18 @@
     .input-wrapper input[type="text"]:not(:placeholder-shown) + .clear-btn {
       display: inline;
     }
-    /* Station logo style */
+    .error-getting-stations {
+      background-color: rgb(146, 146, 146);
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 1rem;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
     .station-logo {
       width: 32px;
       height: 32px;
@@ -74,6 +99,7 @@
       border: 1px solid #ccc;
       text-align: center;
     }
+
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -139,6 +165,7 @@
       overflow: hidden;
     }
     station-picker {
+      position: relative;
       width: 25%;
       height: 100%;
     }
@@ -189,11 +216,22 @@
 
   <!-- TEMPLATE -->
   <main>
-    <button id="fullscreen-btn">+</button>
     <station-picker>
       <div class="input-wrapper">
-        <input type="text" placeholder="Search ...">
-        <button type="button" class="clear-btn" title="Limpiar">×</button>
+        <div class="select-url">
+          <select>
+            <option value="" disabled selected>
+              Select a station
+            </option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/balkan.m3u">TV</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/films.m3u">Filmovi</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/sport.m3u">Sport</option>
+          </select>
+        </div>
+        <div class="search-channel">
+          <input type="text" placeholder="Search ...">
+          <button type="button" class="clear-btn" title="Limpiar">×</button>
+        </div>
       </div>
       <ul>
         <li></li>
@@ -202,18 +240,14 @@
     <tv-watcher>
       <video-player></video-player>
     </tv-watcher>
-
-    <ur-ls style="display: none;">
-      <i class="selected" data-url="https://notbigmuzzy.github.io/tevecade/urls/balkan.m3u" />
-      <i data-url="https://notbigmuzzy.github.io/tevecade/urls/sport.m3u" />
-    </ur-ls>
+    <button id="fullscreen-btn">+</button>
   </main>
 
   <!-- LOGIC -->
   <script>
     function getSelectedUrl() {
-      const selected = document.querySelector('ur-ls .selected');
-      return selected ? selected.getAttribute('data-url') : '';
+      const select = document.querySelector('.select-url select');
+      return select ? select.value : '';
     }
     let FREETVM3U8URL = getSelectedUrl();
 
@@ -227,20 +261,16 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('fullscreen-btn').addEventListener('click', function() {
-        requestFullscreen(document.querySelector('main'));
-      });
+    async function loadStations(url) {
       const ul = document.querySelector('station-picker ul');
-      ul.innerHTML = '<li>Cargando estaciones...</li>';
+      ul.innerHTML = '<li class="error-getting-stations">No stations selected</li>';
       try {
-        const res = await fetch(FREETVM3U8URL);
+        const res = await fetch(url);
         const text = await res.text();
         const lines = text.split('\n');
         let stations = [];
         for (let i = 0; i < lines.length; i++) {
           if (lines[i].startsWith('#EXTINF')) {
-            // Use tvg-id as the channel name if present, else fallback
             let name = 'Canal';
             let logo = '';
             const extinf = lines[i];
@@ -248,17 +278,14 @@
             if (match && match[1]) {
               name = match[1].trim();
             } else {
-              // Try tvg-name
               match = extinf.match(/tvg-name="([^"]+)"/);
               if (match && match[1]) {
                 name = match[1].trim();
               } else {
-                // Try group-title
                 match = extinf.match(/group-title="([^"]+)"/);
                 if (match && match[1]) {
                   name = match[1].trim();
                 } else {
-                  // Fallback: use text after last comma
                   match = extinf.match(/,(.*)$/);
                   if (match && match[1]) {
                     name = match[1].trim();
@@ -266,7 +293,6 @@
                 }
               }
             }
-            // Get tvg-logo
             match = extinf.match(/tvg-logo="([^"]+)"/);
             if (match && match[1]) {
               logo = match[1].trim();
@@ -275,14 +301,12 @@
             if (url) stations.push({ name, url, logo });
           }
         }
-        // Only keep stations with .m3u8 URLs
         const filteredStations = stations.filter(station => station.url.endsWith('.m3u8'));
         ul.innerHTML = '';
         filteredStations.forEach((station, idx) => {
           const li = document.createElement('li');
           const a = document.createElement('a');
           a.href = '#';
-          // Add logo if present
           if (station.logo) {
             const img = document.createElement('img');
             img.src = station.logo;
@@ -293,7 +317,6 @@
           const span = document.createElement('span');
           span.textContent = station.name;
           a.appendChild(span);
-          // Add number circle on right
           const number = document.createElement('span');
           number.className = 'station-number';
           number.textContent = idx + 1;
@@ -309,7 +332,6 @@
             video.setAttribute('height', '360');
             video.style.background = '#000';
             tvWatcher.appendChild(video);
-            // Use Video.js for .m3u8
             video.className = 'video-js vjs-default-skin';
             video.setAttribute('data-setup', '{}');
             const source = document.createElement('source');
@@ -324,7 +346,6 @@
           li.dataset.url = station.url;
           ul.appendChild(li);
         });
-        // Filtering logic with clear button
         const filterInput = document.querySelector('station-picker input[type="text"]');
         const clearBtn = document.querySelector('.clear-btn');
         function filterList() {
@@ -346,11 +367,23 @@
           filterInput.focus();
           filterList();
         });
-        // Hide clear button initially
         clearBtn.style.display = 'none';
       } catch (e) {
-        ul.innerHTML = '<li>Error cargando estaciones</li>';
+        ul.innerHTML = '<li class="error-getting-stations">No stations selected</li>';
       }
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('fullscreen-btn').addEventListener('click', function() {
+        requestFullscreen(document.querySelector('main'));
+      });
+      const select = document.querySelector('.select-url select');
+      select.addEventListener('change', function() {
+        FREETVM3U8URL = select.value;
+        loadStations(FREETVM3U8URL);
+      });
+      FREETVM3U8URL = getSelectedUrl();
+      loadStations(FREETVM3U8URL);
     });
   </script>
 </body>
