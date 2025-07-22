@@ -588,36 +588,27 @@ window.addEventListener('DOMContentLoaded', async () => {
     function setupVideoJsControlBarSync() {
     const tvWatcher = document.querySelector('tv-watcher');
     const container = document.querySelector('.tv-watcher-container');
+    let controlsVisibleTimeout = null;
     const observer = new MutationObserver(() => {
-        const video = tvWatcher.querySelector('video');
-        if (!video || !window.videojs) return;
-        const vjs = window.videojs.getPlayer ? window.videojs.getPlayer(video) : window.videojs(video);
-        if (!vjs) return;
-        vjs.ready(function() {
-        vjs.on('userinactive', function() {
-            container.classList.remove('controls-visible');
-        });
-        vjs.on('useractive', function() {
+        const videoJs = tvWatcher.querySelector('.video-js');
+        if (!videoJs) return;
+        // Remove previous listeners to avoid stacking
+        videoJs.onclick = null;
+        videoJs.ontouchstart = null;
+        // Show controls for at least 5 seconds on click/touch
+        function showControlsVisible() {
             container.classList.add('controls-visible');
-        });
-        // Initial state
-        if (vjs.userActive()) {
-            container.classList.add('controls-visible');
-        } else {
-            container.classList.remove('controls-visible');
+            if (controlsVisibleTimeout) clearTimeout(controlsVisibleTimeout);
+            controlsVisibleTimeout = setTimeout(() => {
+                container.classList.remove('controls-visible');
+            }, 5000);
         }
-        });
+        videoJs.addEventListener('click', showControlsVisible);
+        videoJs.addEventListener('touchstart', showControlsVisible);
     });
     observer.observe(tvWatcher, { childList: true, subtree: true });
     }
     setupVideoJsControlBarSync();
-    // Make control-bar click add controls-visible to tv-watcher-container
-    const controlBar = document.querySelector('control-bar');
-    if (controlBar && tvWatcherContainer) {
-        controlBar.addEventListener('click', function(e) {
-            tvWatcherContainer.classList.add('controls-visible');
-        });
-    }
 });
 
 if ('serviceWorker' in navigator) {

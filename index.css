@@ -142,14 +142,13 @@ control-bar {
     left: 0;
     right: 0;
     padding: 10px;
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
     height: 50px;
     width: 100%;
     box-sizing: border-box;
     background: rgba(0, 0, 0, .5);
-    opacity: 0;
     outline: none;
 }
 .name-fav-wrapper {
@@ -157,7 +156,7 @@ control-bar {
     align-items: center;
 }
 .tv-watcher-container.controls-visible control-bar {
-    opacity: 1;
+    display: flex;
 }
 control-bar button {
     z-index: 10;
