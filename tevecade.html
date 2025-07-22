@@ -25,6 +25,20 @@
       border: 1px solid #fff;
       cursor: pointer;
     }
+    #hide-sidebar-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      padding: 8px 16px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      cursor: pointer;
+    }
     .input-wrapper {
       display: flex;
       width: 100%;
@@ -66,8 +80,7 @@
       display: inline;
     }
     .error-getting-stations {
-      background-color: rgb(146, 146, 146);
-      color: white;
+      color: #929292;
       font-weight: bold;
       text-align: center;
       padding: 1rem;
@@ -85,6 +98,9 @@
       margin-right: 8px;
     }
     .station-number {
+      position: absolute;
+      right: 16px;
+      top: 8px;
       margin-left: auto;
       display: flex;
       align-items: center;
@@ -99,7 +115,6 @@
       border: 1px solid #ccc;
       text-align: center;
     }
-
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -166,7 +181,7 @@
     }
     station-picker {
       position: relative;
-      width: 25%;
+      width: 280px;
       height: 100%;
     }
     station-picker input {
@@ -189,18 +204,43 @@
       list-style: none;
     }
     station-picker a {
+      position: relative;
       display: flex;
       align-items: center;
-      padding: 0.5rem 1rem;
+      padding: 8px 50px 8px 16px;
       text-decoration: none;
       color: #222;
       border-bottom: 1px solid #eee;
+      overflow: hidden;
+    }
+    station-picker a span {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      min-width: 0;
+      max-width: 100%;
+      flex: 1 1 auto;
     }
     station-picker a:hover {
       background-color: red;
     }
+    .tv-watcher-container {
+      width: calc(100% - 280px);
+      height: 100%;
+      position: relative;
+      background-color: #222;
+    }
+    .tv-watcher-container.maximized {
+      width: 100vw;
+      z-index: 20;
+    }
+    .sidebar-hidden station-picker {
+      display: none;
+    }
     tv-watcher {
-      width: 75%;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -237,10 +277,13 @@
         <li></li>
       </ul>
     </station-picker>
-    <tv-watcher>
-      <video-player></video-player>
-    </tv-watcher>
-    <button id="fullscreen-btn">+</button>
+    <div class="tv-watcher-container">
+      <tv-watcher>
+        <video-player></video-player>
+      </tv-watcher>
+      <button id="hide-sidebar-btn">=</button>
+      <button id="fullscreen-btn">+</button>
+    </div>
   </main>
 
   <!-- LOGIC -->
@@ -384,6 +427,15 @@
       });
       FREETVM3U8URL = getSelectedUrl();
       loadStations(FREETVM3U8URL);
+
+      // Hide sidebar logic
+      const hideSidebarBtn = document.getElementById('hide-sidebar-btn');
+      const main = document.querySelector('main');
+      const tvWatcherContainer = document.querySelector('.tv-watcher-container');
+      hideSidebarBtn.addEventListener('click', function() {
+        main.classList.toggle('sidebar-hidden');
+        tvWatcherContainer.classList.toggle('maximized');
+      });
     });
   </script>
 </body>
