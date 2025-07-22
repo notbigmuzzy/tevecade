@@ -43,6 +43,7 @@ function loadRecentStations() {
         img.src = station.logo;
         img.alt = station.name + ' logo';
         img.className = 'station-logo';
+        img.loading = 'lazy';
         a.appendChild(img);
     }
     const span = document.createElement('span');
@@ -199,6 +200,7 @@ async function loadStations(url) {
         img.src = station.logo;
         img.alt = station.name + ' logo';
         img.className = 'station-logo';
+        img.loading = 'lazy';
         a.appendChild(img);
         }
         const span = document.createElement('span');
