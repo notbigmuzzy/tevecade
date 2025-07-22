@@ -397,6 +397,90 @@ async function loadStations(url) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+    // Populate intro-section cards
+    function renderStationCards(list, containerSelector) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        container.innerHTML = '';
+        if (!list.length) {
+            const li = document.createElement('li');
+            li.textContent = 'None';
+            container.appendChild(li);
+            return;
+        }
+        list.forEach(station => {
+            const li = document.createElement('li');
+            li.className = 'station-card';
+            // Blurred background img
+            if (station.logo) {
+                const bgImg = document.createElement('img');
+                bgImg.src = station.logo;
+                bgImg.alt = '';
+                bgImg.className = 'card-bg-blur';
+                li.appendChild(bgImg);
+            }
+            // Inner wrapper for name only
+            const inner = document.createElement('div');
+            inner.className = 'station-card-inner';
+            // Logo inside card (not blurred)
+            if (station.logo) {
+                const logoImg = document.createElement('img');
+                logoImg.src = station.logo;
+                logoImg.alt = station.name + ' logo';
+                logoImg.className = 'card-logo';
+                inner.appendChild(logoImg);
+            }
+            // Name
+            const span = document.createElement('span');
+            span.textContent = station.name;
+            span.className = 'card-name';
+            inner.appendChild(span);
+            li.appendChild(inner);
+            // Click to play
+            li.addEventListener('click', function() {
+                addToRecentStations(station);
+                const titlebarStationName = document.querySelector('.titlebar-station-name');
+                if (titlebarStationName) titlebarStationName.textContent = station.name;
+                const tvWatcher = document.querySelector('tv-watcher');
+                tvWatcher.innerHTML = '';
+                const video = document.createElement('video');
+                video.setAttribute('controls', 'false');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('width', '640');
+                video.setAttribute('height', '360');
+                video.setAttribute('playsinline', '');
+                video.style.background = '#000';
+                tvWatcher.appendChild(video);
+                video.className = 'video-js vjs-default-skin';
+                video.setAttribute('data-setup', '{"nativeControlsForTouch":true}');
+                const source = document.createElement('source');
+                source.src = station.url;
+                source.type = 'application/x-mpegURL';
+                video.appendChild(source);
+                if (window.videojs) {
+                    const player = window.videojs(video, {
+                        controls: false,
+                        nativeControlsForTouch: false,
+                        fluid: false,
+                        responsive: false
+                    });
+                    player.ready(() => {
+                        player.controls(false);
+                        video.controls = false;
+                    });
+                }
+            });
+            container.appendChild(li);
+        });
+    }
+
+    function updateIntroCards() {
+        renderStationCards(getRecentStations(), '.cards-recently-watched');
+        renderStationCards(getFavourites(), '.cards-favourites');
+    }
+    updateIntroCards();
+    // Also update when favourites or recent change
+    window.addEventListener('storage', updateIntroCards);
     // Ensure 'Favourites' option is always present in the select
     const selectEl = document.querySelector('.select-url select');
     if (selectEl && !Array.from(selectEl.options).some(opt => opt.value === 'favourites')) {
