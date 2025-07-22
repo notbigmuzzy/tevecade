@@ -6,4 +6,4 @@
 ...##....##.......####...##......##..##..##..##..##..##..##.....
 ...##....######....##....######...####...##..##..#####...######.
 
-Tecnología, Vida, Eventos, Cultura, Arte, Deportes, Educación
+Tecnología, Educación, Vida, Eventos, Cultura, Arte, Deportes, Esports
