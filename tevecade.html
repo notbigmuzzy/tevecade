@@ -11,10 +11,19 @@
   
   <!-- STYLE -->
   <style>
-    #fullscreen-btn {
+    control-bar {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+    control-bar #fullscreen-btn {
+      pointer-events: initial;
       z-index: 10;
       padding: 8px 16px;
       font-size: 1em;
@@ -25,10 +34,8 @@
       border: 1px solid #fff;
       cursor: pointer;
     }
-    #hide-sidebar-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
+    control-bar #hide-sidebar-btn {
+      pointer-events: initial;
       z-index: 10;
       padding: 8px 16px;
       font-size: 1em;
@@ -260,12 +267,11 @@
       <div class="input-wrapper">
         <div class="select-url">
           <select>
-            <option value="" disabled selected>
-              Select a station
-            </option>
+            <option value="" disabled selected>Select a station</option>
             <option value="https://notbigmuzzy.github.io/tevecade/urls/balkan.m3u">TV</option>
             <option value="https://notbigmuzzy.github.io/tevecade/urls/films.m3u">Filmovi</option>
             <option value="https://notbigmuzzy.github.io/tevecade/urls/sport.m3u">Sport</option>
+            <option value="https://notbigmuzzy.github.io/tevecade/urls/music.m3u">Music</option>
           </select>
         </div>
         <div class="search-channel">
@@ -281,8 +287,10 @@
       <tv-watcher>
         <video-player></video-player>
       </tv-watcher>
-      <button id="hide-sidebar-btn">=</button>
-      <button id="fullscreen-btn">+</button>
+      <control-bar>
+        <button id="hide-sidebar-btn">←</button>
+        <button id="fullscreen-btn">⛶</button>
+      </control-bar>
     </div>
   </main>
 
