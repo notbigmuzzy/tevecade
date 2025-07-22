@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <title>Tevecade - TV Local</title>
 
+  <!-- IMPORT -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  
   <!-- STYLE -->
   <style>
     #fullscreen-btn {
@@ -190,7 +192,7 @@
 
   <!-- LOGIC -->
   <script>
-    const FREETVM3U8URL = 'https://iptv-org.github.io/iptv/countries/rs.m3u';
+    const FREETVM3U8URL = 'https://notbigmuzzy.github.io/tevecade/playlist.m3u';
 
     function requestFullscreen(elem) {
       if (elem.requestFullscreen) {
@@ -269,24 +271,28 @@
           a.addEventListener('click', (e) => {
             e.preventDefault();
             const tvWatcher = document.querySelector('tv-watcher');
-            // Remove previous player if exists
             tvWatcher.innerHTML = '';
-            // Create video element for Video.js
             const video = document.createElement('video');
-            video.className = 'video-js vjs-default-skin';
             video.setAttribute('controls', '');
             video.setAttribute('autoplay', '');
             video.setAttribute('width', '640');
             video.setAttribute('height', '360');
-            video.setAttribute('data-setup', '{}');
-            const source = document.createElement('source');
-            source.src = station.url;
-            source.type = 'application/x-mpegURL';
-            video.appendChild(source);
+            video.style.background = '#000';
             tvWatcher.appendChild(video);
-            // Initialize Video.js
-            if (window.videojs) {
-              window.videojs(video);
+            if (station.url.endsWith('.m3u8')) {
+              // Use Video.js for .m3u8
+              video.className = 'video-js vjs-default-skin';
+              video.setAttribute('data-setup', '{}');
+              const source = document.createElement('source');
+              source.src = station.url;
+              source.type = 'application/x-mpegURL';
+              video.appendChild(source);
+              if (window.videojs) {
+                window.videojs(video);
+              }
+            } else {
+              // Fallback: try native
+              video.src = station.url;
             }
           });
           li.appendChild(a);

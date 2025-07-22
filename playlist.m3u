@@ -32,14 +32,6 @@ https://d1ei8ofhgfmkac.cloudfront.net/app-19518-1306/ngrp:QoZfNjsg_all/playlist.
 https://streaming.social3.hr/ExtraTVudzdhr5/uUankWqpXD/1.m3u8
 #EXTINF:-1 tvg-id="FLASHBACK.rs" tvg-logo="https://i.imgur.com/9dz8MsD.png" group-title="Music",FLASHBACK
 https://muzzik-live.morescreens.com/mts-8/playlist.m3u8
-#EXTINF:-1 tvg-id="HRT1.hr@HD" tvg-logo="https://i.imgur.com/lDSctzX.png" group-title="General",HRT 1 HD
-https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/HRT1/default/index.mpd
-#EXTINF:-1 tvg-id="HRT2.hr@HD" tvg-logo="https://i.imgur.com/yyePcl1.png" group-title="General",HRT 2 HD
-https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/HRT2/default/index.mpd
-#EXTINF:-1 tvg-id="HRT3.hr@HD" tvg-logo="https://i.imgur.com/4OrOJRx.png" group-title="Culture;Documentary",HRT 3 HD
-https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/HRT3/default/index.mpd
-#EXTINF:-1 tvg-id="HRT4.hr@HD" tvg-logo="https://i.imgur.com/VcNrY0m.png" group-title="News",HRT 4 HD
-https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/HRT4/default/index.mpd
 #EXTINF:-1 tvg-id="JEKA.rs" tvg-logo="https://i.imgur.com/5Y5NAEF.png" group-title="Music",JEKA
 https://muzzik-live.morescreens.com/mts-4/playlist.m3u8
 #EXTINF:-1 tvg-id="Kanal6.ba" tvg-logo="https://i.imgur.com/GGhvR0l.png" group-title="General",Kanal 6
@@ -100,16 +92,6 @@ https://d1rzyyum8t0q1e.cloudfront.net/rtl-kockica/playlist.m3u8
 https://pluslive.rtrs.tv/plus/plus/playlist.m3u8
 #EXTINF:-1 tvg-id="RTRSTV.ba" tvg-logo="https://i.imgur.com/2Sgs5gM.png" group-title="",RTRS TV
 https://uzivo.rtrs.tv/tv/live/index.m3u8
-#EXTINF:-1 tvg-id="RTS1.rs" tvg-logo="https://i.imgur.com/S1pKHSR.png" group-title="",RTS 1
-https://webtvstream.bhtelecom.ba/rts1.m3u8
-#EXTINF:-1 tvg-id="RTS2.rs" tvg-logo="https://i.imgur.com/jltAf5h.png" group-title="",RTS 2
-https://webtvstream.bhtelecom.ba/rts2.m3u8
-#EXTINF:-1 tvg-id="RTSSvet.rs@HD" tvg-logo="https://i.imgur.com/LjunOdy.png" group-title="",RTS Svet HD
-https://viamotionhsi.netplus.ch/live/eds/rtssat/browser-dash/rtssat.mpd
-#EXTINF:-1 tvg-id="RTV1.rs" tvg-logo="https://i.imgur.com/CG44YT3.png" group-title="",RTV 1
-mmsh://212.200.255.151/rtv1
-#EXTINF:-1 tvg-id="RTV2.rs" tvg-logo="https://i.imgur.com/skpr66t.png" group-title="",RTV 2
-mmsh://212.200.255.151/rtv2
 #EXTINF:-1 tvg-id="RTVBap.rs" tvg-logo="https://i.imgur.com/TBAtPH6.png" group-title="",RTV Bap
 https://53be5ef2d13aa.streamlock.net/rtvbap/uzivo/playlist.m3u8
 #EXTINF:-1 tvg-id="RTVGlasDrine.ba" tvg-logo="https://i.imgur.com/9NgxOdb.png" group-title="General;Music",RTV Glas Drine
@@ -174,15 +156,58 @@ https://stream.agatin.hr:3727/live/tvnovalive.m3u8
 https://stream.pikanal.rs/pikanal/pgm.m3u8
 #EXTINF:-1 tvg-id="TVPirot.rs" tvg-logo="https://i.imgur.com/o5y1ok6.png" group-title="",TV Pirot
 https://5bc45691ca49f.streamlock.net/tvpirot/uzivo/playlist.m3u8
-#EXTINF:-1 tvg-id="TVSlonExtra.ba" tvg-logo="https://i.imgur.com/AohYgH1.png" group-title="",TV Slon Extra
-http://31.47.0.130:8082
 #EXTINF:-1 tvg-id="TVTeuta.me" tvg-logo="https://i.imgur.com/sWVqBuW.png" group-title="General",TV Teuta
 https://teutastream.com/tvteuta/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="TVZapad.hr" tvg-logo="https://i.imgur.com/cgCeX12.png" group-title="General",TV Zapad
-http://85.94.67.158/TVZAPAD/index.fmp4.m3u8
 #EXTINF:-1 tvg-id="WORLDWIDEMUZZIK.rs" tvg-logo="https://i.imgur.com/tEzppGC.png" group-title="Music",WORLD WIDE MUZZIK
 https://muzzik-live.morescreens.com/mts-5/playlist.m3u8
 #EXTINF:-1 tvg-id="ZICOTV.rs" tvg-logo="https://i.imgur.com/8wbTnNW.png" group-title="Music",ZICO TV
 http://77.83.120.135:8001/play/a0wn
 #EXTINF:-1 tvg-id="ZZTV.rs" tvg-logo="https://i.imgur.com/9dz8MsD.png" group-title="Music",ZZ TV
 https://muzzik-live.morescreens.com/mts-a4/playlist.m3u8
+#EXTM3U
+#EXTINF:-1 tvg-id="3Plus.al" tvg-logo="https://i.imgur.com/0ZdW9As.png" group-title="Series",3 Plus
+http://77.83.120.135:8001/play/a19e
+#EXTINF:-1 tvg-id="ABCNews.al" tvg-logo="https://i.imgur.com/q5pjJ2m.png" group-title="News",ABC News
+http://77.83.120.135:8001/play/a00c
+#EXTINF:-1 tvg-id="AlbKanaleMusicTV.al" tvg-logo="https://i.imgur.com/JdKxscs.png" group-title="Music",AlbKanale Music TV
+https://albportal.net/albkanalemusic.m3u8
+#EXTINF:-1 tvg-id="CNA.al" tvg-logo="https://codeit.al/wp-content/uploads/2020/08/cna.png" group-title="News",CNA
+https://live1.mediadesk.al/cnatvlive.m3u8
+#EXTINF:-1 tvg-id="EuronewsAlbania.al" tvg-logo="https://i.imgur.com/Skf6vdi.png" group-title="News",Euronews Albania
+https://gjirafa-video-live.gjirafa.net/gjvideo-live/2dw-zuf-1c9-pxu/index.m3u8
+#EXTINF:-1 tvg-id="FaxNews.al" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Fax_News_%28Albania%29.svg/512px-Fax_News_%28Albania%29.svg.png" group-title="News",Fax News
+http://77.83.120.135:8001/play/FaxNews
+#EXTINF:-1 tvg-id="FolkloritTV.al" tvg-logo="https://i.imgur.com/wayxz5S.jpg" group-title="Music",Folklorit TV
+https://vs.sednastream.com:1936/folklorit/folklorit/playlist.m3u8
+#EXTINF:-1 tvg-id="KlanPlus.al" tvg-logo="https://i.imgur.com/l2nZM5h.png" group-title="General",Klan Plus
+http://77.83.120.135:8001/play/a0w9
+#EXTINF:-1 tvg-id="MCNTV.al" tvg-logo="https://i.imgur.com/bcAMVVk.png" group-title="General",MCN TV
+http://141.95.145.70:8088/hls/mcn.m3u8
+#EXTINF:-1 tvg-id="News24.al" tvg-logo="https://i.imgur.com/eG33jue.png" group-title="News",News 24
+http://tv.balkanweb.com:8081/news24/livestream/playlist.m3u8
+#EXTINF:-1 tvg-id="OraNews.al" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Ora_News_%28Albania%29.svg/512px-Ora_News_%28Albania%29.svg.png" group-title="News",Ora News
+https://live1.mediadesk.al/oranews.m3u8
+#EXTINF:-1 tvg-id="PanoramaTV.al" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Panorama_logo.svg/512px-Panorama_logo.svg.png" group-title="News",Panorama TV
+http://198.244.188.94/panorama/livestream/playlist.m3u8
+#EXTINF:-1 tvg-id="ReportTV.al" tvg-logo="https://i.imgur.com/C9lM1KP.png" group-title="News",Report TV
+https://deb10stream.duckdns.org/hls/stream.m3u8
+#EXTINF:-1 tvg-id="RTSH3.al" tvg-logo="https://i.imgur.com/kyhHTx3.png" group-title="General",RTSH 3
+http://77.83.120.135:8001/play/a0qo
+#EXTINF:-1 tvg-id="RTSH24.al" tvg-logo="https://i.imgur.com/H6tCoGW.png" group-title="News",RTSH 24
+http://77.83.120.135:8001/play/RTSH24
+#EXTINF:-1 tvg-id="RTSHMuzike.al" tvg-logo="https://i.imgur.com/7fMS5Hl.png" group-title="Music",RTSH Muzike
+http://77.83.120.135:8001/play/a1a0
+#EXTINF:-1 tvg-id="RTSHShqip.al" tvg-logo="https://i.imgur.com/88kRsW3.png" group-title="Movies",RTSH Shqip
+http://77.83.120.135:8001/play/a10m
+#EXTINF:-1 tvg-id="Syri.al" tvg-logo="https://i.imgur.com/EEHyKdL.jpeg" group-title="News",Syri
+http://77.83.120.135:8001/play/Sportalb
+#EXTINF:-1 tvg-id="TopChannel.al" tvg-logo="https://i.imgur.com/oKix35b.png" group-title="General",Top Channel
+https://trueodin.serv00.net/?t=topnewsal
+#EXTINF:-1 tvg-id="TropojaTelevizion.al" tvg-logo="https://i.imgur.com/D3hNOVS.png" group-title="General",Tropoja Televizion
+https://live.prostream.al/al/smil:tropojatv.smil/playlist.m3u8
+#EXTINF:-1 tvg-id="TVKlan.al" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/TV_Klan.svg/512px-TV_Klan.svg.png" group-title="General",TV Klan
+http://77.83.120.135:8001/play/a16b
+#EXTINF:-1 tvg-id="VizionPlus.al" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Vizion_Plus.svg/512px-Vizion_Plus.svg.png" group-title="General",Vizion Plus
+https://fe.tring.al/delta/105/out/u/rdghfhsfhfshs.m3u8
+#EXTINF:-1 tvg-id="ZjarrTV.al" tvg-logo="https://i.imgur.com/hNuWZWe.png" group-title="General",Zjarr TV
+https://cdn.jwplayer.com/live/events/r2qgHu7W.m3u8
